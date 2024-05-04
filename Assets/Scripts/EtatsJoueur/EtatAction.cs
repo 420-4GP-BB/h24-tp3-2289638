@@ -13,6 +13,12 @@ public class EtatAction : EtatJoueur
 
     private Vector3 pointDestination;
 
+    // Tourner de maniere non brusque vers le sujet
+    Quaternion rotationVisee;
+    private float DureeRotation = 0.25f;
+    private float DureeEcoulee;
+    private bool EstEnRotation = false;
+
     public EtatAction(ComportementJoueur sujet, GameObject destination) : base(sujet)
     {
         _destination = destination;
@@ -21,33 +27,43 @@ public class EtatAction : EtatJoueur
 
     public override void Enter()
     {
-        Animateur.SetBool("Walking", true);
-        ControleurMouvement.enabled = false;
-        _navMeshAgent.enabled = true;
+        // Garder la valeure en tete au lieu de immediatement tourner
         Vector3 direction = _destination.transform.position - Sujet.transform.position;
-        Sujet.transform.rotation = Quaternion.LookRotation(direction);
-        Vector3 pointProche = _destination.GetComponent<Collider>().ClosestPoint(Sujet.transform.position);
-        pointDestination = pointProche - direction.normalized * 0.3f;
-        _navMeshAgent.SetDestination(pointDestination);
+        rotationVisee = Quaternion.LookRotation(direction);
+        EstEnRotation = true;
+        DureeEcoulee = 0.01f;
     }
 
     // On doit se rendre au point pour faire l'action
     public override void Handle()
     {
-        float distance = Vector3.Distance(pointDestination, Sujet.transform.position);
-        if (!_navMeshAgent.pathPending && distance <= 0.3f)
+        if (EstEnRotation)
         {
-            _navMeshAgent.enabled = false;
-            pointDestination.y = Sujet.transform.position.y;
-            Sujet.transform.position = pointDestination;
-
-            var actionnable = _destination.GetComponent<IActionnable>();
-            if (actionnable != null)
+            if (DureeRotation > DureeEcoulee)
             {
-                Sujet.ChangerEtat(actionnable.EtatAUtiliser(Sujet));
+                float lerp = DureeEcoulee / DureeRotation;
+                Sujet.transform.rotation = Quaternion.Slerp(Sujet.transform.rotation, rotationVisee, lerp);
+                DureeEcoulee += Time.deltaTime;
+            } else
+            {
+                CommencerTrajet();
+            }
+        } else
+        {
+            float distance = Vector3.Distance(pointDestination, Sujet.transform.position);
+            if (!_navMeshAgent.pathPending && distance <= 0.3f)
+            {
+                _navMeshAgent.enabled = false;
+                pointDestination.y = Sujet.transform.position.y;
+                Sujet.transform.position = pointDestination;
+
+                var actionnable = _destination.GetComponent<IActionnable>();
+                if (actionnable != null)
+                {
+                    Sujet.ChangerEtat(actionnable.EtatAUtiliser(Sujet));
+                }
             }
         }
-
         //Vector3 direction = _destination.transform.position - Sujet.transform.position;
         //Sujet.transform.rotation = Quaternion.LookRotation(direction);
         //Vector3 pointProche = _destination.GetComponent<Collider>().ClosestPoint(Sujet.transform.position);
@@ -89,5 +105,18 @@ public class EtatAction : EtatJoueur
         ControleurMouvement.enabled = true;
         _navMeshAgent.enabled = false;
         Animateur.SetBool("Walking", false);
+    }
+
+    private void CommencerTrajet()
+    {
+        Sujet.transform.rotation = rotationVisee;
+        EstEnRotation = false;
+        Animateur.SetBool("Walking", true);
+        ControleurMouvement.enabled = false;
+        _navMeshAgent.enabled = true;
+        Vector3 direction = _destination.transform.position - Sujet.transform.position;
+        Vector3 pointProche = _destination.GetComponent<Collider>().ClosestPoint(Sujet.transform.position);
+        pointDestination = pointProche - direction.normalized * 0.3f;
+        _navMeshAgent.SetDestination(pointDestination);
     }
 }

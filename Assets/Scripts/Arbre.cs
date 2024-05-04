@@ -7,6 +7,7 @@ public class Arbre : MonoBehaviour , IPoussable
     private float TempsDescente = 2.0f;
     private float TempsEcoulee;
     private Vector3 ArbreDescente;
+    private bool ArbreDisponible = true;
     [SerializeField] public GameObject LogPrefab;
     public EtatJoueur EtatAUtiliser(ComportementJoueur sujet)
     {
@@ -15,7 +16,7 @@ public class Arbre : MonoBehaviour , IPoussable
 
     public bool Permis(ComportementJoueur sujet)
     {
-        return true;
+        return ArbreDisponible;
     }
     public void Pousser(float v, Vector3 PlayerRight)
     {
@@ -24,6 +25,7 @@ public class Arbre : MonoBehaviour , IPoussable
 
     public void Tomber()
     {
+        ArbreDisponible = false;
         TempsEcoulee = 0.0f;
         float NewY = transform.position.y;
         NewY -= 2.0f;

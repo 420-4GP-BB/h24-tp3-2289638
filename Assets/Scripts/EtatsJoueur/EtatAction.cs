@@ -19,6 +19,7 @@ public class EtatAction : EtatJoueur
     private float DureeEcoulee;
     private bool EstEnRotation = false;
     private Logger _logger;
+    private float timeStuck = 0.0f;
 
     public EtatAction(ComportementJoueur sujet, GameObject destination) : base(sujet)
     {
@@ -52,9 +53,20 @@ public class EtatAction : EtatJoueur
             }
         } else
         {
-            float distance = Vector3.Distance(pointDestination, Sujet.transform.position);
-            float velocity = _navMeshAgent.velocity.magnitude;
-            if (!_navMeshAgent.pathPending && _navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance && !_navMeshAgent.hasPath)
+            // Parfois, il arrive que l'agent se coince entre des buches, surtout lorsqu'il commence son path tres proche de sa destination. 
+            // Ceci evite cela.
+            if (!_navMeshAgent.pathPending && _navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
+            {
+                timeStuck += Time.deltaTime;
+            } else
+            {
+                timeStuck = 0;
+            }
+
+    //        _logger.Log($"Path pending: {_navMeshAgent.pathPending}, Remaining Distance: {_navMeshAgent.remainingDistance}, Stopping Distance: {_navMeshAgent.stoppingDistance}," +
+    //$"Agent has path: {_navMeshAgent.hasPath}, Time Stuck: {timeStuck}");
+
+            if ((!_navMeshAgent.pathPending && _navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance && !_navMeshAgent.hasPath) || timeStuck>0.35f)
             {
                 _navMeshAgent.enabled = false;
                 pointDestination.y = Sujet.transform.position.y;

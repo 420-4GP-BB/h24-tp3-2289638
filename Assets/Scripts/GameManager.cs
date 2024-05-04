@@ -4,6 +4,7 @@ using System.Linq;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Soleil _soleil;
+    [SerializeField] private GameObject WoodLog;
 
     private ComportementJoueur _joueur;
 
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
         foreach (GameObject arbre in arbres)
         {
             arbre.AddComponent<Arbre>();
+            arbre.GetComponent<Arbre>().LogPrefab = WoodLog;
         }
         // Patron de conception: Observateur
         FindObjectOfType<Soleil>().OnJourneeTerminee += NouvelleJournee;

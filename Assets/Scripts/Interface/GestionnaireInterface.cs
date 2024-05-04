@@ -24,7 +24,10 @@ public class GestionnaireInterface : MonoBehaviour
 
     [SerializeField] private TMP_Text[] valeursDepart;
     [SerializeField] private TMP_Dropdown difficulteDropdown;
+    [SerializeField] private TMP_Dropdown personnageDropdown;
 
+    [SerializeField] private GameObject[] personnages;
+    private GameObject personnageChoisi;
     // Start is called before the first frame update
     void Start()
     {
@@ -58,6 +61,13 @@ public class GestionnaireInterface : MonoBehaviour
         }
     }
 
+    public void ChangerPersonnage()
+    {
+        personnages[0].SetActive(!personnages[0].activeSelf);
+        personnages[1].SetActive(!personnages[1].activeSelf);
+        personnageChoisi = personnages[personnageDropdown.value];
+    }
+
     public void DemarrerPartie()
     {
         int[] valeursActuelles = null;
@@ -80,7 +90,7 @@ public class GestionnaireInterface : MonoBehaviour
         ParametresParties.Instance.SemencesDepart = valeursActuelles[2];
         ParametresParties.Instance.TempsCroissance = valeursActuelles[3];
         ParametresParties.Instance.DelaiCueillete = valeursActuelles[4];
-
+        ParametresParties.Instance.ModelJoueur = personnageChoisi;
         if (nomJoueur.text != string.Empty)
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene("Ferme");

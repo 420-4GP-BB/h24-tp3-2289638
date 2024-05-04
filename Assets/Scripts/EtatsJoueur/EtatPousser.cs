@@ -6,10 +6,13 @@ public class EtatPousser : EtatJoueur
 {
     private IPoussable _poussable;
     private float DureeTombee = 2.0f;
+    private float TempsPoussee;
     float vitesseTombee;
+    GameObject Joueur;
     public EtatPousser(ComportementJoueur sujet, IPoussable poussable) : base(sujet)
     {
         _poussable = poussable;
+        Joueur = Sujet.gameObject;
     }
 
     public override bool EstActif => true;
@@ -20,28 +23,24 @@ public class EtatPousser : EtatJoueur
 
     public override void Enter()
     {
-        throw new System.NotImplementedException();
+        vitesseTombee = 90.0f / DureeTombee;
+        TempsPoussee = 0.0f;
+        Animateur.SetBool("Pousser", true);
     }
 
     public override void Exit()
     {
-        throw new System.NotImplementedException();
+        Animateur.SetBool("Pousser", false);
     }
 
     public override void Handle()
     {
-        throw new System.NotImplementedException();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        TempsPoussee += Time.deltaTime;
+        _poussable.Pousser(vitesseTombee, Joueur.transform.right);
+        if (TempsPoussee > DureeTombee)
+        {
+            _poussable.Tomber();
+            Sujet.ChangerEtat(Sujet.EtatNormal);
+        }
     }
 }

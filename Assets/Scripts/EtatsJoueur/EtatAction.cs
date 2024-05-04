@@ -18,11 +18,13 @@ public class EtatAction : EtatJoueur
     private float DureeRotation = 0.25f;
     private float DureeEcoulee;
     private bool EstEnRotation = false;
+    private Logger _logger;
 
     public EtatAction(ComportementJoueur sujet, GameObject destination) : base(sujet)
     {
         _destination = destination;
         _navMeshAgent = Sujet.GetComponent<NavMeshAgent>();
+        _logger = new Logger();
     }
 
     public override void Enter()
@@ -31,7 +33,7 @@ public class EtatAction : EtatJoueur
         Vector3 direction = _destination.transform.position - Sujet.transform.position;
         rotationVisee = Quaternion.LookRotation(direction);
         EstEnRotation = true;
-        DureeEcoulee = 0.01f;
+        DureeEcoulee = 0.00f;
     }
 
     // On doit se rendre au point pour faire l'action
@@ -39,7 +41,7 @@ public class EtatAction : EtatJoueur
     {
         if (EstEnRotation)
         {
-            if (DureeRotation > DureeEcoulee)
+            if (DureeRotation > DureeEcoulee && Sujet.transform.rotation!=rotationVisee)
             {
                 float lerp = DureeEcoulee / DureeRotation;
                 Sujet.transform.rotation = Quaternion.Slerp(Sujet.transform.rotation, rotationVisee, lerp);

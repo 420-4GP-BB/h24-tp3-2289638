@@ -13,6 +13,12 @@ public class MouvementPoulet : MonoBehaviour
 
     private GameObject[] _pointsDeDeplacement;
 
+    [SerializeField] private Vector3 SortieMagasin = new Vector3 (-37, 0, -15);
+    [SerializeField] private Vector3 Ferme = new Vector3 (58.5f, 0, -47f);
+    [SerializeField] private float DistanceDuJoueur = 2.5f;
+    [SerializeField] private float DistanceEntreeFerme = 5.0f;
+    private bool EstDansFerme;
+    private GameObject Joueur;
     void Start()
     {
         // _zoneRelachement = UnityEngine.GameObject.Find("ZoneRelachePoulet");
@@ -23,7 +29,8 @@ public class MouvementPoulet : MonoBehaviour
         _animator = GetComponent<Animator>();
         _agent = GetComponent<NavMeshAgent>();
         _pointsDeDeplacement = GameObject.FindGameObjectsWithTag("PointsPoulet");
-        _animator.SetBool("Walk", true);
+        Joueur = GameObject.FindGameObjectWithTag("Player");
+        Debug.Log("Joueur: "+Joueur.name);
         Initialiser();
     }
 
@@ -31,13 +38,9 @@ public class MouvementPoulet : MonoBehaviour
     {
         // Position initiale sur la ferme
         _agent.enabled = false;
-        var point = _pointsDeDeplacement[Random.Range(0, _pointsDeDeplacement.Length)];
-        transform.position = point.transform.position;
+        transform.position = SortieMagasin;
+        EstDansFerme = false;
         _agent.enabled = true;
-
-        gameObject.GetComponent<PondreOeufs>().enabled = true;
-
-        ChoisirDestinationAleatoire();
     }
 
     void ChoisirDestinationAleatoire()
@@ -45,19 +48,51 @@ public class MouvementPoulet : MonoBehaviour
         GameObject point = _pointsDeDeplacement[Random.Range(0, _pointsDeDeplacement.Length)];
         _agent.SetDestination(point.transform.position);
     }
-
+    private void ArriverFerme()
+    {
+        EstDansFerme = true;
+        gameObject.GetComponent<PondreOeufs>().enabled = true;
+        ChoisirDestinationAleatoire();
+        _animator.SetBool("Walk", true);
+    }
     void Update()
     {
-        // if (_suivreJoueur)
-        // {
-        //     Vector3 directionAvecJoueur = Quaternion.AngleAxis(_angleDerriere, Vector3.up) * joueur.transform.forward;
-        //     transform.position = joueur.transform.position - directionAvecJoueur;
-        //     transform.rotation = joueur.transform.rotation;
-        // }
-
-        if (!_agent.pathPending && _agent.remainingDistance < 0.5f)
+        if (!EstDansFerme)
         {
-            ChoisirDestinationAleatoire();
+            SuivreJoueur();
+            VerifierDistanceFerme();
+            VerifierAnimationWalk();
+        }
+        else
+        {
+            if (!_agent.pathPending && _agent.remainingDistance < 0.5f)
+            {
+                ChoisirDestinationAleatoire();
+            }
+        }
+    }
+    void SuivreJoueur()
+    {
+        Vector3 direction = (Joueur.transform.position - _agent.transform.position).normalized;
+        Vector3 position = Joueur.transform.position - direction * DistanceDuJoueur;
+        _agent.destination = position;
+    }
+    void VerifierDistanceFerme()
+    {
+        float distance = Vector3.Distance(_agent.transform.position, Ferme);
+        if (distance < DistanceEntreeFerme)
+        {
+            ArriverFerme();
+        }
+    }
+    void VerifierAnimationWalk()
+    {
+        if (_agent.velocity.magnitude>0f)
+        {
+            _animator.SetBool("Walk", true);
+        } else
+        {
+            _animator.SetBool("Walk", false);
         }
     }
 }

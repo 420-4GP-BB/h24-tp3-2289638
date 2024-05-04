@@ -53,7 +53,8 @@ public class EtatAction : EtatJoueur
         } else
         {
             float distance = Vector3.Distance(pointDestination, Sujet.transform.position);
-            if (!_navMeshAgent.pathPending && distance <= 0.3f)
+            float velocity = _navMeshAgent.velocity.magnitude;
+            if (!_navMeshAgent.pathPending && _navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance && !_navMeshAgent.hasPath)
             {
                 _navMeshAgent.enabled = false;
                 pointDestination.y = Sujet.transform.position.y;

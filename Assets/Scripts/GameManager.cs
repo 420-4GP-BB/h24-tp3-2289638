@@ -1,10 +1,14 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using UnityEngine.AI;
+using System.Collections.Generic;
+
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Soleil _soleil;
     [SerializeField] private GameObject WoodLog;
+    [SerializeField] private GameObject JoueurParDefaut;
 
     private ComportementJoueur _joueur;
 
@@ -14,9 +18,11 @@ public class GameManager : MonoBehaviour
     private EnergieJoueur _energieJoueur;
     private ChouMesh3D[] _chous;
     public int NumeroJour = 1;
+    private Vector3 SpawnJoueur = new Vector3(58.5f, 0, -52f);
 
     void Start()
     {
+        CreerJoueur();
         _joueur = GameObject.Find("Joueur").GetComponent<ComportementJoueur>();
         _inventaireJoueur = _joueur.GetComponent<Inventaire>();
         _energieJoueur = _joueur.GetComponent<EnergieJoueur>();
@@ -82,5 +88,31 @@ public class GameManager : MonoBehaviour
         return GameObject.FindObjectsOfType<GameObject>()
             .Where(obj => obj.name.StartsWith(prefix))
             .ToArray();
+    }
+    private void CreerJoueur()
+    {
+        if (!ParametresParties.Instance.ModelJoueur)
+        {
+            ParametresParties.Instance.ModelJoueur = JoueurParDefaut;
+        }
+        GameObject Joueur = Instantiate(JoueurParDefaut);
+        Joueur.name = "Joueur";
+        Joueur.GetComponent<CharacterController>().enabled = false;
+        Joueur.transform.position = SpawnJoueur;
+        Joueur.GetComponent<CharacterController>().enabled = true;
+
+        // enlever les
+        foreach (Transform child in Joueur.transform)
+        {
+            if (child.name.Contains("Naked"))
+            {
+                child.gameObject.SetActive(false);
+            }
+        }
+        //_inventaireJoueur = Joueur.AddComponent<Inventaire>();
+        //_energieJoueur = Joueur.AddComponent<EnergieJoueur>();
+        //Joueur.AddComponent<CharacterController>();
+        //Joueur.AddComponent<NavMeshAgent>();
+        //_joueur = Joueur.AddComponent<ComportementJoueur>();
     }
 }

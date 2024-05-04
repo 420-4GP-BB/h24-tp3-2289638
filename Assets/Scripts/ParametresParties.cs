@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class ParametresParties
 {
     public static ParametresParties Instance { get; private set; } = new ParametresParties();
@@ -6,6 +8,7 @@ public class ParametresParties
     public int OrDepart { get; set; } = 200;
     public int OeufsDepart { get; set; } = 5;
     public int SemencesDepart { get; set; } = 5;
+    public GameObject ModelJoueur { get; set; }
 
     ///// <summary>
     ///// Nombre de jours nécessaires à un chou pour être prêts

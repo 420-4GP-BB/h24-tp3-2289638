@@ -91,11 +91,12 @@ public class GameManager : MonoBehaviour
     }
     private void CreerJoueur()
     {
+        Debug.Log("GameManager: "+ParametresParties.Instance.ModelJoueur.name);
         if (!ParametresParties.Instance.ModelJoueur)
         {
             ParametresParties.Instance.ModelJoueur = JoueurParDefaut;
         }
-        GameObject Joueur = Instantiate(JoueurParDefaut);
+        GameObject Joueur = Instantiate(ParametresParties.Instance.ModelJoueur);
         Joueur.name = "Joueur";
         Joueur.GetComponent<CharacterController>().enabled = false;
         Joueur.transform.position = SpawnJoueur;

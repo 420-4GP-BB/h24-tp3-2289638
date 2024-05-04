@@ -27,6 +27,7 @@ public class GestionnaireInterface : MonoBehaviour
     [SerializeField] private TMP_Dropdown personnageDropdown;
 
     [SerializeField] private GameObject[] personnages;
+    [SerializeField] private GameObject[] personnagesPrefab;
     private GameObject personnageChoisi;
     // Start is called before the first frame update
     void Start()
@@ -36,6 +37,8 @@ public class GestionnaireInterface : MonoBehaviour
 
         difficulte = Difficulte.Facile;
         MettreAJour(valeursFacile);
+
+        personnageChoisi = personnagesPrefab[0];
     }
 
     void Update()
@@ -65,7 +68,7 @@ public class GestionnaireInterface : MonoBehaviour
     {
         personnages[0].SetActive(!personnages[0].activeSelf);
         personnages[1].SetActive(!personnages[1].activeSelf);
-        personnageChoisi = personnages[personnageDropdown.value];
+        personnageChoisi = personnagesPrefab[personnageDropdown.value];
     }
 
     public void DemarrerPartie()
@@ -91,6 +94,8 @@ public class GestionnaireInterface : MonoBehaviour
         ParametresParties.Instance.TempsCroissance = valeursActuelles[3];
         ParametresParties.Instance.DelaiCueillete = valeursActuelles[4];
         ParametresParties.Instance.ModelJoueur = personnageChoisi;
+        Debug.Log(personnageChoisi.name);
+        Debug.Log(ParametresParties.Instance.ModelJoueur.name);
         if (nomJoueur.text != string.Empty)
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene("Ferme");

@@ -544,7 +544,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2784561854437792545, guid: d3f87f114f86a3b4f88996e8d2e99fd8, type: 3}
       propertyPath: m_Name
-      value: PT_Male_Modular_Free_Pack
+      value: PreviewMale
       objectReference: {fileID: 0}
     - target: {fileID: 2784561854437792545, guid: d3f87f114f86a3b4f88996e8d2e99fd8, type: 3}
       propertyPath: m_IsActive
@@ -3751,7 +3751,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1606037529433101695, guid: 4a2f1fe7e36596049b29f061a77ff748, type: 3}
       propertyPath: m_Name
-      value: PT_Female_Modular_Free_Pack
+      value: PreviewFemale
       objectReference: {fileID: 0}
     - target: {fileID: 1606037529433101695, guid: 4a2f1fe7e36596049b29f061a77ff748, type: 3}
       propertyPath: m_IsActive
@@ -3797,7 +3797,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5097014469081582013, guid: 4a2f1fe7e36596049b29f061a77ff748, type: 3}
+    - {fileID: 5454240738895876614, guid: 4a2f1fe7e36596049b29f061a77ff748, type: 3}
+    - {fileID: 7358070071147073241, guid: 4a2f1fe7e36596049b29f061a77ff748, type: 3}
+    - {fileID: -3205447544370147314, guid: 4a2f1fe7e36596049b29f061a77ff748, type: 3}
+    - {fileID: 1624599182872863065, guid: 4a2f1fe7e36596049b29f061a77ff748, type: 3}
+    - {fileID: -6109737407344399996, guid: 4a2f1fe7e36596049b29f061a77ff748, type: 3}
     m_RemovedGameObjects:
     - {fileID: 5298790216601844461, guid: 4a2f1fe7e36596049b29f061a77ff748, type: 3}
     - {fileID: 3342854728115693136, guid: 4a2f1fe7e36596049b29f061a77ff748, type: 3}
@@ -4620,6 +4626,9 @@ MonoBehaviour:
   personnages:
   - {fileID: 1955413453}
   - {fileID: 1716491748}
+  personnagesPrefab:
+  - {fileID: 2784561854437792545, guid: d3f87f114f86a3b4f88996e8d2e99fd8, type: 3}
+  - {fileID: 1606037529433101695, guid: 4a2f1fe7e36596049b29f061a77ff748, type: 3}
 --- !u!4 &1447052501
 Transform:
   m_ObjectHideFlags: 0

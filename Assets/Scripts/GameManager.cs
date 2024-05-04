@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using System.Linq;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Soleil _soleil;
@@ -20,7 +20,11 @@ public class GameManager : MonoBehaviour
         _inventaireJoueur = _joueur.GetComponent<Inventaire>();
         _energieJoueur = _joueur.GetComponent<EnergieJoueur>();
         _chous = FindObjectsByType<ChouMesh3D>(FindObjectsSortMode.None);
-
+        GameObject[] arbres = FindObjectsStartingWith("Arbre");
+        foreach (GameObject arbre in arbres)
+        {
+            arbre.AddComponent<Arbre>();
+        }
         // Patron de conception: Observateur
         FindObjectOfType<Soleil>().OnJourneeTerminee += NouvelleJournee;
 
@@ -69,5 +73,12 @@ public class GameManager : MonoBehaviour
             "Vous n'avez pas r?ussi ? vous garder en vie, vous tombez sans connaissance au milieu du champ." +
             "Un loup passe et vous d?guste en guise de d?ner. Meilleure chance la prochaine partie!");
         Time.timeScale = 0;
+    }
+    GameObject[] FindObjectsStartingWith(string prefix)
+    {
+        // Source de ce code : ChatGPT
+        return GameObject.FindObjectsOfType<GameObject>()
+            .Where(obj => obj.name.StartsWith(prefix))
+            .ToArray();
     }
 }

@@ -91,7 +91,6 @@ public class GameManager : MonoBehaviour
     }
     private void CreerJoueur()
     {
-        Debug.Log("GameManager: "+ParametresParties.Instance.ModelJoueur.name);
         if (!ParametresParties.Instance.ModelJoueur)
         {
             ParametresParties.Instance.ModelJoueur = JoueurParDefaut;

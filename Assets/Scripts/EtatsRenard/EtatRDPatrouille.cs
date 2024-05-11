@@ -8,6 +8,7 @@ public class EtatRDPatrouille : EtatRenard
     Logger logger = new Logger();
     private const int nombreSecondesJournees = 24 * 60 * 60;
     private GameObject[] PointsPatrouille;
+    private float RadiusDetection = 5f;
     public EtatRDPatrouille(ComportementRenard renard, GameObject[] pointsPatrouille) : base(renard)
     {
         PointsPatrouille = pointsPatrouille;
@@ -15,6 +16,7 @@ public class EtatRDPatrouille : EtatRenard
 
     public override void Enter()
     {
+        Respawn();
         _Animator.SetBool("isWalking", true);
         SetNewDestination();
     }
@@ -32,6 +34,7 @@ public class EtatRDPatrouille : EtatRenard
             SetNewDestination();
         }
         CheckTime();
+        DetectChicks();
     }
     public void LogState()
     {
@@ -46,5 +49,25 @@ public class EtatRDPatrouille : EtatRenard
     {
         GameObject point = PointsPatrouille[Random.Range(0, PointsPatrouille.Length)];
         Agent.SetDestination(point.transform.position);
+    }
+    public void Respawn() // Pour éviter des cas ou les poules s'échappent à peine du renard, mais que ce dernier reapparait sur eux, guarantissant la mort de toute les poules
+                          // lorsque le renard arrive à la ferme.
+    {
+        GameObject point = PointsPatrouille[Random.Range(0, PointsPatrouille.Length)];
+        Agent.Warp(point.transform.position);
+    }
+    public void DetectChicks() // Chicks comme "Chickens", à ne pas mal comprendre ( arrêtez de choisir l'ours D: )
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(Agent.transform.position, RadiusDetection);
+        int i = 0;
+        while (i < hitColliders.Length)
+        {
+            GameObject obj = hitColliders[i].gameObject;
+            if (obj.CompareTag("Poule"))
+            {
+                logger.Log("Found GameObject: " + obj.name + " at distance: " + Vector3.Distance(Agent.transform.position, obj.transform.position));
+            }
+            i++;
+        }
     }
 }

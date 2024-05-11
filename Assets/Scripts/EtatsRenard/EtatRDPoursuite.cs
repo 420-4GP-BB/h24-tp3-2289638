@@ -42,7 +42,7 @@ public class EtatRDPoursuite : EtatRenard
             Debug.Log("Renard s'est servit de ta poule preférée");
             Object.Destroy(Proie);
             Proie.tag = "Untagged";
-            Proie = null; // Immediately nullify the reference
+            Proie = null;
             Renard._etatPatrouille.RenardSeReveille = false;
             Renard.ChangerEtat(Renard._etatPatrouille);
         }

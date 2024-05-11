@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -19,6 +20,11 @@ public class MouvementPoulet : MonoBehaviour
     [SerializeField] private float DistanceEntreeFerme = 5.0f;
     private bool EstDansFerme;
     private GameObject Joueur;
+    private const float progression21h = 16.0f / 24;    // J'ai la flemme de penser à pourquoi les valeurs doivent être inversées pour que ca fonctionne, mais 
+                                                        // j'ai trouvé la solution, ca marche, je suis content.
+    private const float progression8h = 3.0f / 24;
+    private Soleil Etoile => GameObject.FindFirstObjectByType<Soleil>();
+    public bool TempsAventureux => Etoile.ProportionRestante >= progression21h || Etoile.ProportionRestante <= progression8h;
     void Start()
     {
         // _zoneRelachement = UnityEngine.GameObject.Find("ZoneRelachePoulet");
@@ -28,7 +34,10 @@ public class MouvementPoulet : MonoBehaviour
 
         _animator = GetComponent<Animator>();
         _agent = GetComponent<NavMeshAgent>();
-        _pointsDeDeplacement = GameObject.FindGameObjectsWithTag("PointsPoulet");
+        GameObject pointSpecial = GameObject.FindGameObjectWithTag("PointSpecial");
+        List<GameObject> points = new List<GameObject>(GameObject.FindGameObjectsWithTag("PointsPoulet"));
+        points.Add(pointSpecial);
+        _pointsDeDeplacement = points.ToArray();
         Joueur = GameObject.FindGameObjectWithTag("Player");
         Debug.Log("Joueur: "+Joueur.name);
         Initialiser();
@@ -45,7 +54,14 @@ public class MouvementPoulet : MonoBehaviour
 
     void ChoisirDestinationAleatoire()
     {
-        GameObject point = _pointsDeDeplacement[Random.Range(0, _pointsDeDeplacement.Length)];
+        GameObject point;
+        if (TempsAventureux)
+        {
+            point = _pointsDeDeplacement[Random.Range(0, _pointsDeDeplacement.Length)];
+        } else
+        {
+            point = _pointsDeDeplacement[Random.Range(0, _pointsDeDeplacement.Length-1)];
+        }
         _agent.SetDestination(point.transform.position);
     }
     private void ArriverFerme()

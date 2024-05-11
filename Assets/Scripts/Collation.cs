@@ -5,6 +5,7 @@ using UnityEngine;
 public class Collation : MonoBehaviour, IRamassable
 {
     ComportementJoueur Joueur;
+    public ArbreCollation ArbreParent;
     public EtatJoueur EtatAUtiliser(ComportementJoueur sujet)
     {
         Joueur = sujet;
@@ -19,18 +20,7 @@ public class Collation : MonoBehaviour, IRamassable
     public void Ramasser(Inventaire inventaireJoueur)
     {
         Joueur.Manger(true);
+        ArbreParent.CollationPrete = false;
         Destroy(gameObject);
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

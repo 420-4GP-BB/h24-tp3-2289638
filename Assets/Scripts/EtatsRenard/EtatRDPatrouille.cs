@@ -9,14 +9,19 @@ public class EtatRDPatrouille : EtatRenard
     private const int nombreSecondesJournees = 24 * 60 * 60;
     private GameObject[] PointsPatrouille;
     private float RadiusDetection = 5f;
+    public bool RenardSeReveille;
     public EtatRDPatrouille(ComportementRenard renard, GameObject[] pointsPatrouille) : base(renard)
     {
         PointsPatrouille = pointsPatrouille;
+        RenardSeReveille = true;
     }
 
     public override void Enter()
     {
-        Respawn();
+        if (RenardSeReveille)
+        {
+            Respawn();
+        }
         _Animator.SetBool("isWalking", true);
         SetNewDestination();
     }
@@ -65,7 +70,7 @@ public class EtatRDPatrouille : EtatRenard
             GameObject obj = hitColliders[i].gameObject;
             if (obj.CompareTag("Poule"))
             {
-                logger.Log("Found GameObject: " + obj.name + " at distance: " + Vector3.Distance(Agent.transform.position, obj.transform.position));
+                Renard.ChangerEtat(new EtatRDPoursuite(Renard,obj));
             }
             i++;
         }

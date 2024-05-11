@@ -12,6 +12,7 @@ public class EtatRDAbsent : EtatRenard
     {
         if (RenardEstPresent)
         {
+            Renard._etatPatrouille.RenardSeReveille = true;
             Renard.ChangerEtat(Renard._etatPatrouille);
         }
     }

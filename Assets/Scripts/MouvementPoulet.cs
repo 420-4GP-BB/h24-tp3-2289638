@@ -18,6 +18,8 @@ public class MouvementPoulet : MonoBehaviour
     [SerializeField] private Vector3 Ferme = new Vector3 (58.5f, 0, -47f);
     [SerializeField] private float DistanceDuJoueur = 2.5f;
     [SerializeField] private float DistanceEntreeFerme = 5.0f;
+    public bool PouleAchetee;
+    public Vector3 PositionOeuf;
     private bool EstDansFerme;
     private GameObject Joueur;
     private const float progression21h = 16.0f / 24;    // J'ai la flemme de penser à pourquoi les valeurs doivent être inversées pour que ca fonctionne, mais 
@@ -39,10 +41,16 @@ public class MouvementPoulet : MonoBehaviour
         points.Add(pointSpecial);
         _pointsDeDeplacement = points.ToArray();
         Joueur = GameObject.FindGameObjectWithTag("Player");
-        Initialiser();
+        if (PouleAchetee)
+        {
+            InitialiserAchat();
+        } else
+        {
+            InitilaiserEclot(PositionOeuf);
+        }
     }
 
-    void Initialiser()
+    private void InitialiserAchat()
     {
         // Position initiale sur la ferme
         _agent.enabled = false;
@@ -50,7 +58,14 @@ public class MouvementPoulet : MonoBehaviour
         EstDansFerme = false;
         _agent.enabled = true;
     }
-
+    private void InitilaiserEclot(Vector3 positionOeuf)
+    {
+        _agent.enabled = false;
+        transform.position = positionOeuf;
+        EstDansFerme = true;
+        _agent.enabled = true;
+        ArriverFerme();
+    }
     void ChoisirDestinationAleatoire()
     {
         GameObject point;
@@ -63,7 +78,7 @@ public class MouvementPoulet : MonoBehaviour
         }
         _agent.SetDestination(point.transform.position);
     }
-    private void ArriverFerme()
+    public void ArriverFerme()
     {
         EstDansFerme = true;
         gameObject.GetComponent<PondreOeufs>().enabled = true;

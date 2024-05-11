@@ -33,7 +33,7 @@ public class ChouCroissant : MonoBehaviour
     }
 
 
-    private void JourneePassee()
+    public void JourneePassee()
     {
         journeesDeVie++;
 

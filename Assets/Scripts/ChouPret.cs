@@ -16,6 +16,7 @@ public class ChouPret : MonoBehaviour, IRamassable
         // Cueillir
         _chouMesh3D.CacherObjets();
         inventaireJoueur.Choux++;
+        gameObject.AddComponent<EmplacementChouVide>();             // Pour regler le bogue ou le chou ne peut pas se replanter.
         Destroy(this);
     }
 

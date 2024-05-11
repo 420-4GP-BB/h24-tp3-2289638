@@ -45,7 +45,7 @@ public class Maison : MonoBehaviour
     public void Manger()
     {
 //        FermerMenu();
-        _joueur.Manger();
+        _joueur.Manger(false);
     }
 
     public void SortirMaison()

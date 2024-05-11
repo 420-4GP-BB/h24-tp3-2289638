@@ -91,8 +91,14 @@ public class ComportementJoueur : MonoBehaviour
         _controller.enabled = true;
     }
 
-    public void Manger()
+    public void Manger(bool MangerCollation)
     {
+        if (MangerCollation)
+        {
+            _energieJoueur.Energie += 0.15f;
+            TempsDepuisDernierRepas = 0.0f;
+            return;
+        }
         if (_inventaire.Oeuf > 0)
         {
             // Peut-être qu'on devrait offrir le choix de ce qu'on mange.

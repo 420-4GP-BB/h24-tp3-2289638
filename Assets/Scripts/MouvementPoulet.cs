@@ -39,7 +39,6 @@ public class MouvementPoulet : MonoBehaviour
         points.Add(pointSpecial);
         _pointsDeDeplacement = points.ToArray();
         Joueur = GameObject.FindGameObjectWithTag("Player");
-        Debug.Log("Joueur: "+Joueur.name);
         Initialiser();
     }
 

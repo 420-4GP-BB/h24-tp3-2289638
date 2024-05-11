@@ -150,3 +150,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba0e0b68cc1d5b44aa9ed04617cfa33c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pourcentageEclore: 25
+  Poule: {fileID: 8326564455130043134, guid: 72ff8a8226e526e469843d0349866ff3, type: 3}

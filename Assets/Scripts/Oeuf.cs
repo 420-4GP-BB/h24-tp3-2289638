@@ -38,13 +38,9 @@ public class Oeuf : MonoBehaviour, IRamassable
             float roll = Random.value * 100;
             if (roll < pourcentageEclore)
             {
-                Debug.Log("L'oeuf eclot!");
                 GameObject poule = Instantiate(Poule);
                 poule.GetComponent<MouvementPoulet>().PouleAchetee=false;
                 poule.GetComponent<MouvementPoulet>().PositionOeuf=transform.position;
-            } else
-            {
-                Debug.Log("L'oeuf pourrit!");
             }
             Destroy(gameObject);
         }

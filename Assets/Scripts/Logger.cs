@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Logger : MonoBehaviour
 {
-    // Start is called before the first frame update
+    // Classe pour pouvoir faire des Debug.Log à partir des classes non-monobehaviour (les classe états)
     public Logger() { 
     }
 

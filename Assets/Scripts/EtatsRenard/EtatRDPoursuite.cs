@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class EtatRDPoursuite : EtatRenard
 {
-    private GameObject Proie;
-    Logger logger = new Logger();
-    public EtatRDPoursuite(ComportementRenard renard, GameObject proie) : base(renard)
+    private GameObject Proie;   // Proie à suivre
+    public EtatRDPoursuite(ComportementRenard renard, GameObject proie) : base(renard)  // Constructeur prend en paramètre la proie
     {
         Proie = proie;
     }
@@ -18,13 +17,13 @@ public class EtatRDPoursuite : EtatRenard
 
     public override void Exit()
     {
-
+        // Rien à faire ici
     }
 
     public override void Handle()
     {
         ChasserProie();
-        CheckTime();
+        CheckTime();    // CheckTime() provenant de la classe de base fait en sorte que le renard peut disparaitre même s'il est en pleine pourchasse.
     }
     private void ChasserProie()
     {
@@ -41,9 +40,9 @@ public class EtatRDPoursuite : EtatRenard
         {
             Debug.Log("Renard s'est servit de ta poule preférée");
             Object.Destroy(Proie);
-            Proie.tag = "Untagged";
+            Proie.tag = "Untagged"; // Pour éviter un bogue ou l'ÉtatPatrouille detecte la même poule avant qu'elle ne disparaisse.
             Proie = null;
-            Renard._etatPatrouille.RenardSeReveille = false;
+            Renard._etatPatrouille.RenardSeReveille = false;    // Pour signaler qu'on rentre à l'état patrouille à partir de l'état poursuite, et non absent
             Renard.ChangerEtat(Renard._etatPatrouille);
         }
     }

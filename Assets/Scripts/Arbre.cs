@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Arbre : MonoBehaviour , IPoussable
 {
-    private float TempsDescente = 2.0f;
+    private float TempsDescente = 2.0f;             // Bien que les consignes demandent que l'arbre descent sur une période de 0.5s, je trouve cette dernière trop courte
     private float TempsEcoulee;
     private Vector3 ArbreDescente;
     private bool ArbreDisponible = true;
@@ -16,7 +16,7 @@ public class Arbre : MonoBehaviour , IPoussable
 
     public bool Permis(ComportementJoueur sujet)
     {
-        return ArbreDisponible;
+        return ArbreDisponible;             // voir L.28
     }
     public void Pousser(float v, Vector3 PlayerRight)
     {
@@ -25,15 +25,15 @@ public class Arbre : MonoBehaviour , IPoussable
 
     public void Tomber()
     {
-        ArbreDisponible = false;
+        ArbreDisponible = false;            // Pour éviter que l'arbre ne puisse être cliqué lorsqu'elle est dans son animation de descente, ce qui serait catastrophique pour le jeu.
         TempsEcoulee = 0.0f;
         float NewY = transform.position.y;
         NewY -= 2.0f;
-        ArbreDescente = transform.position;
+        ArbreDescente = transform.position; // Attribution de la nouvelle position à laquelle devrait se trouver l'arbre avant d'être deleted. En bas du sol pour être invisible.
         ArbreDescente.y = NewY;
         StartCoroutine(TomberEnum());
     }
-    private IEnumerator TomberEnum()
+    private IEnumerator TomberEnum()        // Une enum pour que ce soit une animation.
     {
         yield return new WaitForSeconds(1);
         InstantiateLog();
@@ -49,11 +49,12 @@ public class Arbre : MonoBehaviour , IPoussable
     private void InstantiateLog()
     {
         Vector3 position = transform.position;
-        double elevation = (Random.value * 0.12) + 0.1;
-        double rotationY = (Random.value * 180) - 90;
-        double scale = (Random.value * 0.2) + 0.4;
+        double elevation = (Random.value * 0.12) + 0.1;     // Les valeurs possibles ici (0.1 jusqu'à 0.22) finissent tous avec la buche qui est un peu dans le sol.
+                                                            // Ils sont choisi au hasard afin de faire en sorte que les buches ne sont pas tous les même.
+        double rotationY = (Random.value * 180) - 90;       // idem
+        double scale = (Random.value * 0.2) + 0.4;          // idem
         position.y = (float)elevation;
-        Quaternion rotation = Quaternion.Euler(90f,(float)rotationY, 0);
+        Quaternion rotation = Quaternion.Euler(90f,(float)rotationY, 0);    // Application des valeurs obtenus au hasard.
         GameObject newLog = Instantiate(LogPrefab, position, rotation);
         newLog.transform.localScale = new Vector3((float)scale, (float)scale, (float)scale);
     }

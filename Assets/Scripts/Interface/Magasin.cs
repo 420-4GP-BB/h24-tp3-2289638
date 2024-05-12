@@ -75,7 +75,8 @@ public class Magasin : MonoBehaviour
         {
             _inventaire.Or -= PRIX_POULE;
             GameObject poule = Instantiate(_modelePoule);
-            poule.GetComponent<MouvementPoulet>().PouleAchetee=true;
+            poule.GetComponent<MouvementPoulet>().PouleAchetee=true;            // Signale au code que cet instance de poule est achetée, pour qu'il réagisse de manière
+                                                                                // approprié (instancier la poule à la sortie du magasin)
         });
 
         _boutonGraines.onClick.AddListener(() =>

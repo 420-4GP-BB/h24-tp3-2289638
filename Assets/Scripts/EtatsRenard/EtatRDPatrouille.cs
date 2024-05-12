@@ -5,11 +5,9 @@ using UnityEngine.AI;
 
 public class EtatRDPatrouille : EtatRenard
 {
-    Logger logger = new Logger();
-    private const int nombreSecondesJournees = 24 * 60 * 60;
     private GameObject[] PointsPatrouille;
-    private float RadiusDetection = 5f;
-    public bool RenardSeReveille;
+    private float RadiusDetection = 5f; // Zone autour du renard à laquelle il peut sentir les poule
+    public bool RenardSeReveille;       // Booléan qui sert à assurer que lorsque le renard passe de mode pourchasse à patrouille, ce dernier ne 'respawn' pas.
     public EtatRDPatrouille(ComportementRenard renard, GameObject[] pointsPatrouille) : base(renard)
     {
         PointsPatrouille = pointsPatrouille;
@@ -18,13 +16,13 @@ public class EtatRDPatrouille : EtatRenard
 
     public override void Enter()
     {
-        if (RenardSeReveille)
+        if (RenardSeReveille)                   // Seulement s'il se réveille (qu'il est entrain de sortir de l'état absent), le renard respawn à un point aléatoire.
         {
-            Respawn();
-        }
-        _Animator.SetBool("isWalking", true);
-        SetNewDestination();
-    }
+            Respawn();                          // S'il ne se réveille pas (qu'il arrive a l'état patrouille à partir de l'état pourchasse), le renard continue sa patrouille de sa
+        }                                       // location actuelle.
+        _Animator.SetBool("isWalking", true);   // Pourquoi le renard re-apparait à une location aléatoire après une journée?:
+        SetNewDestination();                    // Si ce ne serait pas le cas, cela voudrait dire que le renard tuerait tout les poules si jamais il arrive à se retrouver dans la ferme.
+    }                                           // au final, c'est un 'game-design choice'.
 
     public override void Exit()
     {
@@ -38,17 +36,8 @@ public class EtatRDPatrouille : EtatRenard
         {
             SetNewDestination();
         }
-        CheckTime();
+        CheckTime();    // Si ça devient la nuit, le renard change d'état à absent.
         DetectChicks();
-    }
-    public void LogState()
-    {
-        int nombreSecondesEcoulees =
-    nombreSecondesJournees - (int)(nombreSecondesJournees * Etoile.ProportionRestante);
-        int nombreHeures = nombreSecondesEcoulees / 3600;
-        int nombreMinutes = (nombreSecondesEcoulees % 3600) / 60;
-        string text = $"{nombreHeures:00}:{nombreMinutes:00}";
-        logger.Log("Renard! : est actif? " + RenardEstPresent + "Time: " + text);
     }
     public void SetNewDestination()
     {
@@ -62,9 +51,9 @@ public class EtatRDPatrouille : EtatRenard
         Agent.Warp(point.transform.position);
     }
     public void DetectChicks() // Chicks comme "Chickens", à ne pas mal comprendre ( arrêtez de choisir l'ours D: )
-    {
+    {                          // Recherche standard de gameObjects d'un certain tags autour du renard
         Collider[] hitColliders = Physics.OverlapSphere(Agent.transform.position, RadiusDetection);
-        int i = 0;
+        int i = 0;             // Lorsqu'il trouve un object avec tag 'Poule' , il le pourchasse.
         while (i < hitColliders.Length)
         {
             GameObject obj = hitColliders[i].gameObject;

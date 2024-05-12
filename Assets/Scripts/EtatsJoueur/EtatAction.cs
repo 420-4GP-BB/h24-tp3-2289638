@@ -44,7 +44,7 @@ public class EtatAction : EtatJoueur
         {
             if (DureeRotation > DureeEcoulee && Sujet.transform.rotation!=rotationVisee)
             {
-                float lerp = DureeEcoulee / DureeRotation;
+                float lerp = DureeEcoulee / DureeRotation;                                                  // Code standard afin de faire rotationner un objet sur une période fixe.
                 Sujet.transform.rotation = Quaternion.Slerp(Sujet.transform.rotation, rotationVisee, lerp);
                 DureeEcoulee += Time.deltaTime;
             } else
@@ -67,6 +67,7 @@ public class EtatAction : EtatJoueur
     //$"Agent has path: {_navMeshAgent.hasPath}, Time Stuck: {timeStuck}");
 
             if ((!_navMeshAgent.pathPending && _navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance && !_navMeshAgent.hasPath) || timeStuck>0.35f)
+                // Si toute les autres conditions ici à l'exception de 'hasPath' sont vrai pendant plus que 350ms, l'agent sera décoincé.
             {
                 _navMeshAgent.enabled = false;
                 pointDestination.y = Sujet.transform.position.y;
@@ -124,11 +125,11 @@ public class EtatAction : EtatJoueur
 
     private void CommencerTrajet()
     {
-        Sujet.transform.rotation = rotationVisee;
-        EstEnRotation = false;
+        Sujet.transform.rotation = rotationVisee;   // On s'assure que le sujet fait face à l'endroit
+        EstEnRotation = false;                      // Pour que la méthode handle s'occupe du chemin au lieu de la rotation
         Animateur.SetBool("Walking", true);
-        ControleurMouvement.enabled = false;
-        _navMeshAgent.enabled = true;
+        ControleurMouvement.enabled = false;        
+        _navMeshAgent.enabled = true;               // Code du prof pour faire le trajet.
         Vector3 direction = _destination.transform.position - Sujet.transform.position;
         Vector3 pointProche = _destination.GetComponent<Collider>().ClosestPoint(Sujet.transform.position);
         pointDestination = pointProche - direction.normalized * 0.3f;

@@ -91,11 +91,11 @@ public class ComportementJoueur : MonoBehaviour
         _controller.enabled = true;
     }
 
-    public void Manger(bool MangerCollation)
+    public void Manger(bool MangerCollation)    // Ajout d'un paramètre booléan pour ajouter un cas possible à la fonction Manger()
     {
-        if (MangerCollation)
+        if (MangerCollation)                    // Si c'est true, on ne cherche rien dans la maison, puisque on sait que l'objet mangé est un objet ramassé
         {
-            _energieJoueur.Energie += 0.15f;
+            _energieJoueur.Energie += 0.15f;    // On fait juste donner l'énergie et alerter que le joueur a manger récemment.
             TempsDepuisDernierRepas = 0.0f;
             return;
         }

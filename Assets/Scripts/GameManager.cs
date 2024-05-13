@@ -4,6 +4,8 @@ using System.Linq;
 using UnityEngine.AI;
 using System.Collections.Generic;
 using System;
+using Unity.AI.Navigation;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,7 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject JoueurParDefaut;
     [SerializeField] private float TailleCarreeDelimiteurArbre = 4f;    // On peut décider dynamiquement à partir du éditeur de la distance entre les arbres.
     [SerializeField] private GameObject ArbrePrefab;
-
+    [SerializeField] private NavMeshSurface navMeshSurface;
     private ComportementJoueur _joueur;
 
     private const float DISTANCE_ACTION = 3.0f;
@@ -39,6 +41,7 @@ public class GameManager : MonoBehaviour
         FindObjectOfType<Soleil>().OnJourneeTerminee += NouvelleJournee;
 
         _energieJoueur.OnEnergieVide += EnergieVide;
+        StartCoroutine(WaitBeforeBake());
     }
 
     void NouvelleJournee()
@@ -116,5 +119,13 @@ public class GameManager : MonoBehaviour
         //Joueur.AddComponent<CharacterController>();
         //Joueur.AddComponent<NavMeshAgent>();
         //_joueur = Joueur.AddComponent<ComportementJoueur>();
+    }
+    private IEnumerator WaitBeforeBake()
+    {
+        //Debug.Log("Waiting 5s");
+        //yield return new WaitForSeconds(5);
+        //Debug.Log("Waiting End of frame");
+        yield return new WaitForEndOfFrame();
+        navMeshSurface.BuildNavMesh();
     }
 }

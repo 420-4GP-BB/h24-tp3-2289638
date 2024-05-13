@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {                                                                   
-        strategieForet = new StrategieGrille();
+        strategieForet = new StrategieHasard();
         CreerJoueur();
         _joueur = GameObject.Find("Joueur").GetComponent<ComportementJoueur>();
         _inventaireJoueur = _joueur.GetComponent<Inventaire>();

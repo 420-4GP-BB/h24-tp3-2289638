@@ -42,7 +42,7 @@ public class StrategieGrille : StrategieForet
                     GameObject.Instantiate(ArbrePrefab, position, Quaternion.identity);
                 }
             }
-        };
+        }
     }
 
 }

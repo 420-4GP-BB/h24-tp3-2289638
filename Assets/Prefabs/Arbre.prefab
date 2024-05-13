@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6695003846792796493}
   - component: {fileID: 6695003846791666573}
   - component: {fileID: 3754698884868556433}
+  - component: {fileID: 1578241169647908793}
   m_Layer: 0
   m_Name: Arbre
   m_TagString: Untagged
@@ -107,3 +108,16 @@ CapsuleCollider:
   m_Height: 4.950954
   m_Direction: 1
   m_Center: {x: 0.02, y: 2.36, z: -0.08}
+--- !u!114 &1578241169647908793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6695003846789727565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 290c17f6f20e6084481921510ab89aaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LogPrefab: {fileID: 1360994071702760, guid: 640e2e58c89e3714881006bd0c5eeabf, type: 3}

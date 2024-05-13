@@ -21,7 +21,6 @@ public class ComportementRenard : MonoBehaviour
         _etat = _etatPatrouille;
         _etat.Enter();
     }
-
     void Update()
     {
         _etat.Handle();

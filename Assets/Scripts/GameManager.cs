@@ -3,12 +3,15 @@ using UnityEngine.SceneManagement;
 using System.Linq;
 using UnityEngine.AI;
 using System.Collections.Generic;
+using System;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Soleil _soleil;
     [SerializeField] private GameObject WoodLog;
     [SerializeField] private GameObject JoueurParDefaut;
+    [SerializeField] private float TailleCarreeDelimiteurArbre = 4f;    // On peut décider dynamiquement à partir du éditeur de la distance entre les arbres.
+    [SerializeField] private GameObject ArbrePrefab;
 
     private ComportementJoueur _joueur;
 
@@ -20,19 +23,18 @@ public class GameManager : MonoBehaviour
     public int NumeroJour = 1;
     private Vector3 SpawnJoueur = new Vector3(58.5f, 0, -52f);
 
+    private StrategieForet strategieForet;
+
     void Start()
-    {
+    {                                                                   
+        strategieForet = new StrategieGrille();
         CreerJoueur();
         _joueur = GameObject.Find("Joueur").GetComponent<ComportementJoueur>();
         _inventaireJoueur = _joueur.GetComponent<Inventaire>();
         _energieJoueur = _joueur.GetComponent<EnergieJoueur>();
         _chous = FindObjectsByType<ChouMesh3D>(FindObjectsSortMode.None);
         GameObject[] arbres = FindObjectsStartingWith("Arbre");
-        foreach (GameObject arbre in arbres)
-        {
-            arbre.AddComponent<Arbre>();
-            arbre.GetComponent<Arbre>().LogPrefab = WoodLog;
-        }
+        strategieForet.GenererForet(TailleCarreeDelimiteurArbre, ArbrePrefab, arbres);  // Utilisaiton de patron stratégie.
         // Patron de conception: Observateur
         FindObjectOfType<Soleil>().OnJourneeTerminee += NouvelleJournee;
 

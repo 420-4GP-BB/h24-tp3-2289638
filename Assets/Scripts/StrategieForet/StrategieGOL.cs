@@ -16,6 +16,7 @@ public class StrategieGOL : StrategieForet
         for (int i=0;i<10;i++)
         {
             TableauForet = GameOfLifeRound(TableauForet);
+            BannirCase(TableauForet);
         }
         GenererArbresForet(arbres, TableauForet, delimitionArbres, ArbrePrefab);
     }

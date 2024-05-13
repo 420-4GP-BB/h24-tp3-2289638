@@ -83,4 +83,22 @@ public abstract class StrategieForet
         return banned;
     }
     public abstract void GenererArbresForet(GameObject[] arbres, bool[,] TableauArbreBool, float delimitionArbres, GameObject ArbrePrefab);
+    public virtual void InitHasard(bool[,] tab)
+    {
+        for (int i = 0; i < tab.GetLength(0); i++)
+        {
+            for (int j = 0; j < tab.GetLength(1); j++)
+            {
+                int randInt = UnityEngine.Random.Range(0, 2); // 50/50 chance
+                if (randInt == 0)
+                {
+                    tab[i, j] = true;
+                }
+                else
+                {
+                    tab[i, j] = false;
+                }
+            }
+        }
+    }
 }

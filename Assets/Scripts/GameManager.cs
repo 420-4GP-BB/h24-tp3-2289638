@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {                                                                   
-        strategieForet = new StrategieGrille();
+        strategieForet = new StrategieGOL();
         if (ParametresParties.Instance.strategieForet != null)
         {
             strategieForet = ParametresParties.Instance.strategieForet;
@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             SceneManager.LoadScene("MenuConfiguration");
+            SavePlayerPrefs();
         }
 
         if (Input.GetKey(KeyCode.Tab))
@@ -95,6 +96,8 @@ public class GameManager : MonoBehaviour
             "Vous n'avez pas r?ussi ? vous garder en vie, vous tombez sans connaissance au milieu du champ." +
             "Un loup passe et vous d?guste en guise de d?ner. Meilleure chance la prochaine partie!");
         Time.timeScale = 0;
+        PlayerPrefs.SetInt("PrefsSaved", 0);    // Pour que le bouton continuer ne soit pas disponible lorsque le joueur meurt.
+        PlayerPrefs.Save();
     }
     GameObject[] FindObjectsStartingWith(string prefix)
     {
@@ -102,6 +105,24 @@ public class GameManager : MonoBehaviour
         return GameObject.FindObjectsOfType<GameObject>()
             .Where(obj => obj.name.StartsWith(prefix))
             .ToArray();
+    }
+    private void SavePlayerPrefs()
+    {
+        PlayerPrefs.SetString("NomJoueur", ParametresParties.Instance.NomJoueur);
+
+        PlayerPrefs.SetInt("OrDepart", ParametresParties.Instance.OrDepart);
+        PlayerPrefs.SetInt("OeufsDepart", ParametresParties.Instance.OeufsDepart);
+        PlayerPrefs.SetInt("SemencesDepart", ParametresParties.Instance.SemencesDepart);
+        PlayerPrefs.SetInt("TempsCroissance", ParametresParties.Instance.TempsCroissance);
+        PlayerPrefs.SetInt("DelaiCueillette", ParametresParties.Instance.DelaiCueillete);
+
+        PlayerPrefs.SetInt("ChoixStrategie", ParametresParties.Instance.ChoixStrategie);
+        PlayerPrefs.SetInt("ChoixModel", ParametresParties.Instance.ChoixModel);
+
+        PlayerPrefs.SetFloat("DistanceArbre", ParametresParties.Instance.distanceArbre);
+        PlayerPrefs.SetInt("PrefsSaved", 1);
+
+        PlayerPrefs.Save();
     }
     private void CreerJoueur()
     {

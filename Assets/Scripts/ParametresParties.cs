@@ -22,6 +22,8 @@ public class ParametresParties
     ///// Plus cette valeur est petite, plus on doit se dépêcher avant qu'ils ne soient plus bons
     ///// </summary>
     public int DelaiCueillete { get; set; } = 5;
+    public int ChoixStrategie { get; set; }
+    public int ChoixModel {  get; set; }
 
     private ParametresParties()
     {

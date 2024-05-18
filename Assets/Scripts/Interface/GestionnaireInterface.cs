@@ -5,6 +5,7 @@ using TMPro;
 public class GestionnaireInterface : MonoBehaviour
 {
     [SerializeField] private Button _boutonDemarrer;
+    [SerializeField] private Button _boutonContinuer;
 
     enum Difficulte
     {
@@ -48,6 +49,7 @@ public class GestionnaireInterface : MonoBehaviour
     void Update()
     {
         _boutonDemarrer.interactable = nomJoueur.text != string.Empty;
+        _boutonContinuer.interactable = PlayerPrefs.GetInt("PrefsSaved") == 1;
     }
 
     public void ChangerDifficulte()
@@ -72,11 +74,19 @@ public class GestionnaireInterface : MonoBehaviour
     {
         personnages[0].SetActive(!personnages[0].activeSelf);
         personnages[1].SetActive(!personnages[1].activeSelf);
-        personnageChoisi = personnagesPrefab[personnageDropdown.value];
+        ChoisirPersonnage(personnageDropdown.value);
+    }
+    private void ChoisirPersonnage(int choix)
+    {
+        personnageChoisi = personnagesPrefab[choix];
     }
     public void ChangerStrategie()
     {
-        switch (ForetDropdown.value)
+        ChoisirStrategie(ForetDropdown.value);
+    }
+    private void ChoisirStrategie(int choix)
+    {
+        switch (choix)
         {
             case 0:
                 strategieChoisi = new StrategieGrille();
@@ -120,12 +130,35 @@ public class GestionnaireInterface : MonoBehaviour
         ParametresParties.Instance.distanceArbre = distanceChoisi;
         Debug.Log(personnageChoisi.name);
         Debug.Log(ParametresParties.Instance.ModelJoueur.name);
+
+        // Pour la sauvegarde
+        ParametresParties.Instance.ChoixModel = personnageDropdown.value;
+        ParametresParties.Instance.ChoixStrategie = ForetDropdown.value;
+
         if (nomJoueur.text != string.Empty)
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene("Ferme");
         }
     }
+    public void ContinuerPartie()
+    {
+        ParametresParties.Instance.NomJoueur = PlayerPrefs.GetString("NomJoueur");
 
+        ParametresParties.Instance.OrDepart = PlayerPrefs.GetInt("OrDepart");
+        ParametresParties.Instance.OeufsDepart = PlayerPrefs.GetInt("OeufsDepart");
+        ParametresParties.Instance.SemencesDepart = PlayerPrefs.GetInt("SemencesDepart");
+        ParametresParties.Instance.TempsCroissance = PlayerPrefs.GetInt("TempsCroissance");
+        ParametresParties.Instance.DelaiCueillete = PlayerPrefs.GetInt("DelaiCueillete");
+
+        ChoisirStrategie(PlayerPrefs.GetInt("ChoixStrategie"));
+        ChoisirPersonnage(PlayerPrefs.GetInt("ChoixModel"));
+
+        ParametresParties.Instance.ModelJoueur = personnageChoisi;
+        ParametresParties.Instance.strategieForet = strategieChoisi;
+        ParametresParties.Instance.distanceArbre = PlayerPrefs.GetFloat("DistanceArbre");
+
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Ferme");
+    }
     public void QuitterJeu()
     {
 #if UNITY_EDITOR

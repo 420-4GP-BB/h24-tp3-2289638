@@ -27,6 +27,7 @@ public class StrategieGrille : StrategieForet
     }
     public override void GenererArbresForet(GameObject[] arbres, bool[,]TableauArbreBool, float delimitionArbres, GameObject ArbrePrefab)
     {
+        GameObject Foret = GameObject.FindGameObjectWithTag("ForetGroupe");
         foreach (GameObject arbre in arbres)
         {
             GameObject.Destroy(arbre);
@@ -39,7 +40,7 @@ public class StrategieGrille : StrategieForet
                 {
                     Vector3 position = new Vector3(PremiereCaseX + (delimitionArbres * i), 0, (PremiereCaseZ + (delimitionArbres * j)));
                     // Transforme la position de l'arbre à partir de la position de la case dans le tableau original.
-                    GameObject.Instantiate(ArbrePrefab, position, Quaternion.identity);
+                    GameObject.Instantiate(ArbrePrefab, position, Quaternion.identity, Foret.transform);
                 }
             }
         }

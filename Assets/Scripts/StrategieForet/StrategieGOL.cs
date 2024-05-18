@@ -22,6 +22,7 @@ public class StrategieGOL : StrategieForet
     }
     public override void GenererArbresForet(GameObject[] arbres, bool[,] TableauArbreBool, float delimitionArbres, GameObject ArbrePrefab)
     {
+        GameObject Foret = GameObject.FindGameObjectWithTag("ForetGroupe");
         foreach (GameObject arbre in arbres)
         {
             GameObject.Destroy(arbre);
@@ -36,7 +37,7 @@ public class StrategieGOL : StrategieForet
                     float randZ = UnityEngine.Random.Range(-1.25f, 1.26f);
                     Vector3 position = new Vector3(PremiereCaseX + (delimitionArbres * i) + randX, 0, PremiereCaseZ + (delimitionArbres * j) + randZ);
                     // Transforme la position de l'arbre à partir de la position de la case dans le tableau original.
-                    GameObject.Instantiate(ArbrePrefab, position, Quaternion.identity);
+                    GameObject.Instantiate(ArbrePrefab, position, Quaternion.identity, Foret.transform);
                 }
             }
         }

@@ -30,8 +30,8 @@ public class EtatRDAbsent : EtatRenard
         Vector3 RenardCurrentPos = Renard.transform.position;
         float NewY = RenardCurrentPos.y += 10;
         Vector3 RenardNewPos = new Vector3(RenardCurrentPos.x, NewY, RenardCurrentPos.z);
-        Agent.enabled = true;
         Agent.Warp(RenardNewPos);                               // Warp pour s'assurer qu'il revienne à une zone NavMesh
+        Agent.enabled = true;
     }
 
     public override void Handle()

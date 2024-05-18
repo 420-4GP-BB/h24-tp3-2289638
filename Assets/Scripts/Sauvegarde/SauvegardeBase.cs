@@ -6,6 +6,7 @@ public abstract class SauvegardeBase : MonoBehaviour,
     ISaveable,
     ISerializationCallbackReceiver
 {
+    // Classe prit des solutions du prof
     [HideInInspector][SerializeField] private string _saveID;
 
     public string SaveID
@@ -19,7 +20,7 @@ public abstract class SauvegardeBase : MonoBehaviour,
         // Rìen à faire
     }
 
-    public void OnBeforeSerialize()
+    public virtual void OnBeforeSerialize()
     {
         if (string.IsNullOrEmpty(_saveID))
         {

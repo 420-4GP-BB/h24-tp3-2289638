@@ -525,6 +525,7 @@ GameObject:
   - component: {fileID: -3205447544370147314}
   - component: {fileID: 1624599182872863065}
   - component: {fileID: -6109737407344399996}
+  - component: {fileID: -1674558179590119278}
   m_Layer: 0
   m_Name: PT_Female_Modular_Free_Pack
   m_TagString: Player
@@ -675,6 +676,19 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &-1674558179590119278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606037529433101695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e57c600a039b7e43964ad88d222af5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _saveID: 098c9462-2e01-414c-bcf2-9f226fa12e67
 --- !u!1 &1743137066714886553
 GameObject:
   m_ObjectHideFlags: 0

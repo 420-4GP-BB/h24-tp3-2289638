@@ -1043,6 +1043,7 @@ GameObject:
   - component: {fileID: -6653745031486082310}
   - component: {fileID: 4432606356285386741}
   - component: {fileID: 4049144550114302926}
+  - component: {fileID: 1556048996726670762}
   m_Layer: 0
   m_Name: PT_Male_Modular_Free_Pack
   m_TagString: Player
@@ -1192,6 +1193,19 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1556048996726670762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2784561854437792545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e57c600a039b7e43964ad88d222af5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _saveID: 8725ee3c-8cd2-4926-b0d8-be9cebf34200
 --- !u!1 &2898702037118956337
 GameObject:
   m_ObjectHideFlags: 0

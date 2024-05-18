@@ -27,9 +27,10 @@ public class GameManager : MonoBehaviour
 
     private StrategieForet strategieForet;
 
+    private bool AttendreAvantUpdate = true; // Pour que le GameManager attendent que les autres classes, principalement ceux liées au joueur, se initient avant de les appeler.
     void Start()
     {                                                                   
-        strategieForet = new StrategieGOL();
+        strategieForet = new StrategieGrille();
         if (ParametresParties.Instance.strategieForet != null)
         {
             strategieForet = ParametresParties.Instance.strategieForet;
@@ -50,6 +51,10 @@ public class GameManager : MonoBehaviour
         FindObjectOfType<Soleil>().OnJourneeTerminee += NouvelleJournee;
 
         _energieJoueur.OnEnergieVide += EnergieVide;
+        if (GestionnaireSauvegarde.Instance.isLoading)  // Pour les nouvelles parties.
+        {
+            GestionnaireSauvegarde.Instance.OnPlayerCreated();
+        }
         StartCoroutine(WaitBeforeBake());
     }
 
@@ -70,6 +75,7 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene("MenuConfiguration");
             SavePlayerPrefs();
+            GestionnaireSauvegarde.Instance.SauvegarderPartie();
         }
 
         if (Input.GetKey(KeyCode.Tab))
@@ -80,7 +86,6 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 1;
         }
-
         // L'?tat du joueur peut affecter le passage du temps (ex.: Dodo: tout va vite, menus: le temps est stopp?, etc)
         Time.timeScale *= _joueur.GetComponent<ComportementJoueur>().MultiplicateurScale;
     }

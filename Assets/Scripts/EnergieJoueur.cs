@@ -25,7 +25,10 @@ public class EnergieJoueur : MonoBehaviour
 
     void Start()
     {
-        _energie = 1.0f;
+        if (!GestionnaireSauvegarde.Instance.isLoading) // Pour eviter que cette methode Start() ne viennent pas override le loading de la sauvegarde.
+        {
+            _energie = 1.0f;
+        }
         _mouvementJoueur = GetComponent<ComportementJoueur>();
         _soleil = GameObject.Find("Directional Light").GetComponent<Soleil>();
     }

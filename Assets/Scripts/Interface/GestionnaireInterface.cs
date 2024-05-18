@@ -135,6 +135,8 @@ public class GestionnaireInterface : MonoBehaviour
         ParametresParties.Instance.ChoixModel = personnageDropdown.value;
         ParametresParties.Instance.ChoixStrategie = ForetDropdown.value;
 
+        GestionnaireSauvegarde.Instance.isLoading = false;
+
         if (nomJoueur.text != string.Empty)
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene("Ferme");
@@ -157,7 +159,8 @@ public class GestionnaireInterface : MonoBehaviour
         ParametresParties.Instance.strategieForet = strategieChoisi;
         ParametresParties.Instance.distanceArbre = PlayerPrefs.GetFloat("DistanceArbre");
 
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Ferme");
+        GestionnaireSauvegarde.Instance.isLoading = true;
+        GestionnaireSauvegarde.Instance.ChargerPartie("Ferme");
     }
     public void QuitterJeu()
     {

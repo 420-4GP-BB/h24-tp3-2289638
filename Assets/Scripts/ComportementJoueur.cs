@@ -38,7 +38,7 @@ public class ComportementJoueur : MonoBehaviour
     private EnergieJoueur _energieJoueur;
     private Inventaire _inventaire;
 
-    private Vector3 _positionDepart;
+    private Vector3 _positionDepart;    // Un piège lorsqu'on sauvegarde!
     private Quaternion _rotationDepart;
 
     private Animator _animator;
@@ -62,7 +62,7 @@ public class ComportementJoueur : MonoBehaviour
         _energieJoueur = GetComponent<EnergieJoueur>();
         _inventaire = GetComponent<Inventaire>();
 
-        _positionDepart = transform.position;
+        _positionDepart = new Vector3(58.5f,0.09f,-52f);    // Pour que la sauvegarde fonctionne.
         _rotationDepart = transform.rotation;
 
         TempsDepuisDernierRepas = 0.0f;

@@ -29,7 +29,16 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {                                                                   
-        strategieForet = new StrategieGOL();
+        strategieForet = new StrategieGrille();
+        if (ParametresParties.Instance.strategieForet != null)
+        {
+            strategieForet = ParametresParties.Instance.strategieForet;
+        }
+        //Debug.Log("Distance arbre: " + ParametresParties.Instance.distanceArbre);
+        if (ParametresParties.Instance.distanceArbre >2f)
+        {
+            TailleCarreeDelimiteurArbre = ParametresParties.Instance.distanceArbre;
+        }
         CreerJoueur();
         _joueur = GameObject.Find("Joueur").GetComponent<ComportementJoueur>();
         _inventaireJoueur = _joueur.GetComponent<Inventaire>();

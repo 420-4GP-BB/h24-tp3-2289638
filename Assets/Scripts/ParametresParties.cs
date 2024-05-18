@@ -9,7 +9,8 @@ public class ParametresParties
     public int OeufsDepart { get; set; } = 5;
     public int SemencesDepart { get; set; } = 5;
     public GameObject ModelJoueur { get; set; }
-
+    public StrategieForet strategieForet { get; set; }
+    public float distanceArbre { get; set; }
     ///// <summary>
     ///// Nombre de jours nécessaires à un chou pour être prêts
     ///// 0 = le chou est déjà prêt dès qu'on le plante

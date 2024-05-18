@@ -25,10 +25,14 @@ public class GestionnaireInterface : MonoBehaviour
     [SerializeField] private TMP_Text[] valeursDepart;
     [SerializeField] private TMP_Dropdown difficulteDropdown;
     [SerializeField] private TMP_Dropdown personnageDropdown;
+    [SerializeField] private TMP_Dropdown ForetDropdown;
+    [SerializeField] private TMP_Dropdown DistanceDropdown;
 
     [SerializeField] private GameObject[] personnages;
     [SerializeField] private GameObject[] personnagesPrefab;
     private GameObject personnageChoisi;
+    private StrategieForet strategieChoisi;
+    private float distanceChoisi;
     // Start is called before the first frame update
     void Start()
     {
@@ -70,7 +74,25 @@ public class GestionnaireInterface : MonoBehaviour
         personnages[1].SetActive(!personnages[1].activeSelf);
         personnageChoisi = personnagesPrefab[personnageDropdown.value];
     }
-
+    public void ChangerStrategie()
+    {
+        switch (ForetDropdown.value)
+        {
+            case 0:
+                strategieChoisi = new StrategieGrille();
+                break;
+            case 1:
+                strategieChoisi = new StrategieHasard();
+                break;
+            case 2:
+                strategieChoisi = new StrategieGOL();
+                break;
+        }
+    }
+    public void ChangerDistance()
+    {
+        distanceChoisi = DistanceDropdown.value + 3;
+    }
     public void DemarrerPartie()
     {
         int[] valeursActuelles = null;
@@ -94,6 +116,8 @@ public class GestionnaireInterface : MonoBehaviour
         ParametresParties.Instance.TempsCroissance = valeursActuelles[3];
         ParametresParties.Instance.DelaiCueillete = valeursActuelles[4];
         ParametresParties.Instance.ModelJoueur = personnageChoisi;
+        ParametresParties.Instance.strategieForet = strategieChoisi;
+        ParametresParties.Instance.distanceArbre = distanceChoisi;
         Debug.Log(personnageChoisi.name);
         Debug.Log(ParametresParties.Instance.ModelJoueur.name);
         if (nomJoueur.text != string.Empty)
